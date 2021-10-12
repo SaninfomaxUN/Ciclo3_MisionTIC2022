@@ -1,0 +1,126 @@
+.colorAzulOscuroFondo{
+    background-color: #282b32;
+}
+
+.colorAzulClaroFondo{
+    background-color: #318fc2;
+}
+
+.fondoPrincipal{
+    max-width: 600px;
+}
+.lineaBlanca{
+    background-color: #f0f0f0;
+}
+
+.marginNuloLados{
+    margin-right:0 ;
+    margin-left: 0;
+}
+.paddingNuloLados{
+    padding-right:0 ;
+    padding-left: 0;
+}
+
+.bg-purple {
+  --bs-bg-opacity: 1;
+  --bs-purple-rgb: 111, 66, 193;
+  background-color: rgba(var(--bs-purple-rgb), var(--bs-bg-opacity)) !important;
+}
+/* Estilos del formulario*/
+.form-control {
+    min-height: 41px !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    border-color: #e3e3e3 !important;
+}
+.form-control:focus {
+    border-color: #70c5c0 !important;
+}
+.form-control, .btn-form {
+    border-radius: 2px !important;
+}
+.login-form {
+    margin: 0 auto !important;
+    padding: 100px 0 30px !important;
+}
+.tamañoFormularioColumna{
+    max-width: 500px !important;
+}
+.tamañoFormularioAncho{
+    max-width: 1200px !important;
+}
+.login-form .form-form {
+    color: #000000 !important;
+    border-radius: 2px !important;
+    margin-bottom: 15px !important;
+    font-size: 13px !important;
+    background: #ececec !important;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3) !important;
+    padding: 30px !important;
+    position: relative !important;
+}
+.login-form .h2-form {
+    font-size: 22px !important;
+    margin: 35px 0 25px !important;
+}
+.login-form .avatar {
+    position: absolute !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: -90px !important;
+    width: 180px !important;
+    max-width: 180px ;
+    height: 180px !important;
+    border-radius: 50% !important;
+    z-index: 9 !important;
+    background: #c2c6c7 !important;
+    padding: 15px !important;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1) !important;
+}
+.login-form .avatar .img-form {
+    max-width: 100% !important;
+}
+.login-form input[type="checkbox"] {
+    position: relative !important;
+    top: 1px !important;
+}
+.login-form .btn-form, .login-form .btn-form:active {
+    font-size: 16px !important;
+    font-weight: bold !important;
+    background: #70c5c0 !important;
+    border: none !important;
+    margin-bottom: 20px !important;
+}
+.login-form .btn-form:hover, .login-form .btn-form:focus {
+    background: #50b8b3 !important;
+}
+.login-form .a-form {
+    color: #fff;
+    text-decoration: underline !important;
+}
+.login-form .a-form:hover {
+    text-decoration: none !important;
+}
+.login-form form .a-form {
+    color: #7a7a7a !important;
+    text-decoration: none !important;
+}
+.login-form form .a-form:hover {
+    text-decoration: underline !important;
+}
+.login-form .bottom-action {
+    font-size: 14px !important;
+}
+
+.btnBuscar{
+    background-color: #c2c6c7;
+    border-color: #c2c6c7;
+    top: 20px;
+    position: absolute;
+    margin: 0 auto;
+    border-radius: 0;
+    border-color: #282b32;
+    border-width: 5px;
+}

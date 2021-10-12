@@ -1,0 +1,114 @@
+{% extends 'base/base.html' %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <div class="container tamañoFormularioAncho colorAzulClaroFondo fondoPrincipal" style="margin-top: 150px;padding-bottom: 50px;">
+        <div class="login-form form-form" >
+            <div class="avatar" style="top: 360px !important;">
+                    <img class="img-form" src="../static/assets/img/avatar.png" alt="Avatar">
+            </div>
+
+        </div>
+        <div class="container">
+            <h3 class="page-section-heading text-center text-uppercase text-light mb-0" style="padding-bottom: 50px">{{nombreRol}} ADMIN :)</h3>
+            <div class="row justify-content-between">
+                <div class="col-md-3">
+                    <div class="card text-center bg-warning">
+                        <div class="card-body">
+                            <h3 class="card-title">BUSCAR <i class="fas fa-search fa-sm"></i></h3>
+                            <p class="card-text">Consultar la información del empleado ingresando su documento de identidad.</p>
+                            <a href="{{ url_for('buscarEmpleado') }}" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center text-white bg-success">
+                        <div class="card-body">
+                            <h3 class="card-title">AGREGAR <i class="fas fa-plus-circle fa-sm"></i></h3>
+                            <p class="card-text">Registrar la información del nuevo empleado ingresando su documento de identidad.</p>
+                            <a href="{{ url_for('crearEmpleado') }}" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center bg-info">
+                        <div class="card-body">
+                            <h3 class="card-title">EDITAR <i class="fas fa-edit fa-sm"></i></h3>
+                            <p class="card-text">Actualizar la información del empleado ingresando su documento de identidad.</p>
+                            <a href="{{ url_for('editarEmpleado') }}" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center text-white bg-purple">
+                        <div class="card-body">
+                            <h3 class="card-title">ELIMINAR <i class="fas fa-trash-alt fa-sm"></i></h3>
+                            <p class="card-text">Depurar la información del empleado ingresando su documento de identidad.</p>
+                            <a href="{{ url_for('eliminarEmpleado') }}" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contact Section Form->
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+                <!- * * * * * * * * * * * * * * *
+                <!- * * SB Forms Contact Form * *
+                <!- * * * * * * * * * * * * * * *
+                <!- This form is pre-integrated with SB Forms.
+                <!- To make this form functional, sign up at->
+                <!- https://startbootstrap.com/solution/contact-forms->
+                <!- to get an API token!
+                <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                    <!- Name input
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
+                        <label for="name">Full name</label>
+                        <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                    </div>
+                    <!- Email address input
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                        <label for="email">Email address</label>
+                        <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+                        <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                    </div>
+                    <!- Phone number input
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
+                        <label for="phone">Phone number</label>
+                        <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+                    </div>
+                    <!- Message input
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+                        <label for="message">Message</label>
+                        <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                    </div>
+                    <!- Submit success message
+                    <!-
+                    <!- This is what your users will see when the form
+                    <!- has successfully submitted->
+                    <div class="d-none" id="submitSuccessMessage">
+                        <div class="text-center mb-3">
+                            <div class="fw-bolder">Form submission successful!</div>
+                            To activate this form, sign up at
+                            <br />
+                            <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                        </div>
+                    </div>
+                    <!- Submit error message
+                    <!-
+                    <!- This is what your users will see when there is
+                    <!- an error submitting the form
+                    <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                    <!- Submit Button
+                    <button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+        -->
+    </div>
+
+{% endblock %}
