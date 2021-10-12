@@ -2,13 +2,14 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+
+    <!-- Formulario de ingreso/Creacion de datos-->
     <div class="container colorAzulClaroFondo fondoPrincipal">
         <div class=" tamañoFormularioColumna login-form">
             <form class="form-form" action="/examples/actions/confirmation.php" method="post">
                 <div class="avatar">
                     <img class="img-form" src="../static/assets/img/avatar.png" alt="Avatar">
                 </div>
-                <!--<h2 class="text-center h2-form">Member Login</h2>-->
                 <div class="form-group" style="margin-top: 5rem">
                     <input type="text" class="form-control" name="nombre" placeholder="Nombres" required="required">
                 </div>
