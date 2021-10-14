@@ -3,14 +3,21 @@ from flask import render_template,url_for,redirect
 
 app = Flask(__name__)
 
-@app.route('/admin/',methods=['GET'])
-def dashboard():
-    title = "Dashboard"
-    return render_template('dashboard.html', title = title, nombrePag="Dashboard", nombreIcono="fas fa-clipboard-list")
+@app.route("/",methods=['GET','POST'])
+def redireccionar(palabra=None):
+    return redirect(url_for("login"))
+
+@app.route("/<palabra>",methods=['GET','POST'])
+def redireccionarLogin(palabra=None):
+    return redirect(url_for("login"))
 
 @app.route("/admin/<palabra>",methods=['GET','POST'])
-def aleatorio(palabra=None):
+def redireccionarDashAdmin(palabra=None):
     return redirect(url_for("dashboard"))
+
+@app.route("/empleado/<palabra>",methods=['GET','POST'])
+def redireccionarDashEmpleado(palabra=None):
+    return redirect(url_for("dashboardEmpleado"))
 
 @app.route("/login",methods=['GET','POST'])
 def login():
@@ -23,13 +30,17 @@ def seleccionarRol():
 @app.route('/empleado/retroalimentacion',methods=['GET'])
 def retroalimentacion():
     title = "Retroaliemntacion"
-    return render_template('retroalimentacion.html', title = title, nombrePag="Retro", nombreIcono="fas fa-clipboard-list")
+    return render_template('retroalimentacion.html', title = title, nombrePag="Retroalimentación", nombreIcono="fas fa-chart-bar")
 
 @app.route('/empleado/')
 def dashboardEmpleado():
     title = "Dashboard - Empleado"
     return render_template('dashboardEmpleado.html', title = title, nombrePag="Dashboard", nombreIcono="fas fa-clipboard-list")
 
+@app.route('/admin/',methods=['GET'])
+def dashboard():
+    title = "Dashboard"
+    return render_template('dashboard.html', title = title, nombrePag="Dashboard", nombreIcono="fas fa-clipboard-list")
 
 @app.route('/admin/buscarEmpleado',methods=['GET','POST'])
 def buscarEmpleado():
