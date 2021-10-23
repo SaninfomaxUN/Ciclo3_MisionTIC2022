@@ -23,7 +23,7 @@ def redireccionarDashEmpleado(palabra=None):
 def login():
     return render_template('login.html')
 
-@app.route("/seleccionarRol",methods=['GET'])
+@app.route("/seleccionarRol",methods=['GET','POST'])
 def seleccionarRol():
     return render_template('dashboardRol.html')
 

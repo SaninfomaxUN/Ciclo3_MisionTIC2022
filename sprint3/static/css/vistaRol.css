@@ -1,5 +1,9 @@
 body{
-    background-color: #282b32;
+    background: url(../assets/img/fondo5.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
     font-family: 'Marcellus SC', serif;
 }
 h1{
