@@ -37,7 +37,7 @@ def dashboardEmpleado():
     title = "Dashboard - Empleado"
     return render_template('dashboardEmpleado.html', title = title, nombrePag="Dashboard", nombreIcono="fas fa-clipboard-list")
 
-@app.route('/admin/',methods=['GET'])
+@app.route('/admin/',methods=['GET','POST'])
 def dashboard():
     title = "Dashboard"
     return render_template('dashboard.html', title = title, nombrePag="Dashboard", nombreIcono="fas fa-clipboard-list")
@@ -46,6 +46,12 @@ def dashboard():
 def buscarEmpleado():
     title = "Buscar Empleado"
     return render_template('buscarEmpleado.html', title = title, nombrePag="Buscar Empleado", nombreIcono="fas fa-search")
+
+@app.route('/admin/gestionarRetroalimentacion',methods=['GET','POST'])
+def gestionarRetro():
+    title = "Gestionar Retroalimentación"
+    return render_template('gestionarRetro.html', title = title, nombrePag="Gestionar Retroalimentación", nombreIcono="fas fa-search")
+
 
 @app.route('/admin/crearEmpleado',methods=['GET','POST'])
 def crearEmpleado():

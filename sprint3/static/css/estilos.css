@@ -28,6 +28,9 @@
   --bs-purple-rgb: 111, 66, 193;
   background-color: rgba(var(--bs-purple-rgb), var(--bs-bg-opacity)) !important;
 }
+.bg-red{
+    background-color: #84202a;
+}
 /* Estilos del formulario*/
 .form-control {
     min-height: 41px !important;

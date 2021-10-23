@@ -3,70 +3,51 @@
 
 {% block content %}
 
-  <div class="container">
-    <div class="row align-items-start">
-      <div class="col" style="background-color: #328FC2; width: 50%; height: auto; padding: 2%; margin-top: 5%; margin-right: 5%;">
 
-          <canvas id="myChart" style="width:100%;max-width:400px; height: 200px;"></canvas>
 
-          <script>
-          var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
-          var yValues = [55, 49, 44, 24, 15];
-          var barColors = ["red", "green","blue","orange","brown"];
+    <div class="tamañoFormularioAncho container colorAzulClaroFondo fondoPrincipal " style="padding-top: 3rem;margin-top: 100px">
+        <div class="login-form" style="padding-top: 0 !important">
+            <form class="form-form" action="#" method="POST">
+                <div class="row">
+                    <div class="col-md-6">
+                        <canvas id="myChart" style="width:100%;max-width:400px; height: 200px;"></canvas>
 
-          new Chart("myChart", {
-            type: "bar",
-            data: {
-              labels: xValues,
-              datasets: [{
-                backgroundColor: barColors,
-                data: yValues
-              }]
-            },
-            options: {
-              legend: {display: false},
-              title: {
-                display: true,
-                text: "World Wine Production 2018"
-              }
-            }
-          });
-          </script>
-      </div>
-      <div class="col" style="background-color: #328FC2; width: 50%; height: auto; padding: 2%; margin-top: 5%; ">
+                          <script>
+                          var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+                          var yValues = [55, 49, 44, 24, 15];
+                          var barColors = ["red", "green","blue","orange","brown"];
 
-          <canvas id="myChart1" style="width:100%;max-width:400px; height: 200px;"></canvas>
+                          new Chart("myChart", {
+                            type: "bar",
+                            data: {
+                              labels: xValues,
+                              datasets: [{
+                                backgroundColor: barColors,
+                                data: yValues
+                              }]
+                            },
+                            options: {
+                              legend: {display: false},
+                              title: {
+                                display: true,
+                                text: "World Wine Production 2018"
+                              }
+                            }
+                          });
+                          </script>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                           <div class="container marginNuloLados paddingNuloLados">
+                              <div class="col-lg-12" style="padding-bottom: 20px">
+                                  <textarea name="contenido" id="contenido" class="form-control" rows="8" cols="100" placeholder="Ingrese la retroalimentación:" style="background-color: white; resize: none;"readonly ></textarea>
+                              </div>
+                           </div>
+                        </div>
 
-          <script>
-          var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
-          var yValues = [55, 49, 44, 24, 15];
-          var barColors = [
-            "#b91d47",
-            "#00aba9",
-            "#2b5797",
-            "#e8c3b9",
-            "#1e7145"
-          ];
-
-          new Chart("myChart1", {
-            type: "pie",
-            data: {
-              labels: xValues,
-              datasets: [{
-                backgroundColor: barColors,
-                data: yValues
-              }]
-            },
-            options: {
-              title: {
-                display: true,
-                text: "World Wide Wine Production 2018"
-              }
-            }
-          });
-          </script>
-      </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
-
 {% endblock %}
