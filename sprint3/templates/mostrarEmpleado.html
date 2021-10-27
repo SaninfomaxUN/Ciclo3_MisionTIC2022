@@ -1,0 +1,33 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+    <title>Mostrar empleado</title>  
+</head>  
+<body>  
+  
+<h3>Informacion de empleados</h3>  
+<table border=2>  
+    <thead>  
+        <td>identificacion</td>  
+        <td>Tipo identificacion</td>  
+        <td>Nombre</td>  
+        <td>Apellido</td>  
+    </thead>  
+      
+    {% for row in rows %}  
+      
+        <tr>  
+            <td>{{row["numeroId"]}}</td>  
+            <td>{{row["tipo"]}}</td>  
+            <td>{{row["nombre"]}}</td>  
+            <td>{{row["apellido"]}}</td>  
+        </tr>  
+      
+    {% endfor %}  
+</table>  
+<br><br>  
+  
+<a href="/">Ir a la Pagina Principal</a>  
+  
+</body>  
+</html>  
