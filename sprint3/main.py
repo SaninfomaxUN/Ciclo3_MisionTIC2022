@@ -1,8 +1,11 @@
 from flask import Flask, request
 from flask import render_template,url_for,redirect
-import sqlite3 
+from werkzeug.utils import secure_filename
+import sqlite3
+import os
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = './static/assets/img/Perfil'
 
 @app.route("/",methods=['GET','POST'])
 def redireccionar(palabra=None):
@@ -48,7 +51,8 @@ def buscarEmpleado():
 
     print("entre a buscar")
     if request.method == "POST": 
-        try: 
+        try:
+            print("entre a buscar")
             w_numeroId=request.form["numeroId"]
             w_tipo=request.form["tipo"]
             with sqlite3.connect("db/db_mayordomo.db") as console:  
@@ -77,10 +81,11 @@ def gestionarRetro():
 @app.route('/admin/crearEmpleado',methods=['GET','POST'])
 def crearEmpleado():
     title = "Crear Empleado"
-
+    w_numeroId = "";
+    w_tipo="";
     msg = ""  
     if request.method == "POST":  
-        try: 
+        try:
             print("entre")
             w_numeroId=request.form["numeroId"]
             w_tipo=request.form["tipo"]
@@ -92,25 +97,47 @@ def crearEmpleado():
             w_tipoContrato=request.form["tipoContrato"]
             w_fechaIngreso=request.form["fechaIngreso"]
             w_cargo=request.form["cargo"]
+            w_rol = request.form["ROL"]
             w_salario=request.form["salario"]
             w_fechaTerminoContrato=request.form["fechaTerminoContrato"]
             w_dependencia=request.form["dependencia"]  
             with sqlite3.connect("db/db_mayordomo.db") as console:  
-                cursor=console.cursor()  
-                statement="INSERT into empleados (numeroId,tipo,nombre,apellido,direccion,telefono,fechaNacimiento, tipoContrato,fechaIngreso,cargo,salario,fechaTerminoContrato,dependencia,rol,clave) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-                cursor.execute(statement,(w_numeroId,w_tipo,w_nombre,w_apellido,w_direccion,w_telefono,w_fechaNacimiento,w_tipoContrato,w_fechaIngreso,w_cargo,w_salario,w_fechaTerminoContrato,w_dependencia," ","plm"))                
+                cursor=console.cursor()
+                statement="INSERT into empleados (numeroId,tipo,nombre,apellido,direccion,telefono,fechaNacimiento,tipoContrato,fechaIngreso,cargo,salario,fechaTerminoContrato,dependencia,rol,clave) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                cursor.execute(statement,(w_numeroId,w_tipo,w_nombre,w_apellido,w_direccion,w_telefono,w_fechaNacimiento,w_tipoContrato,w_fechaIngreso,w_cargo,w_salario,w_fechaTerminoContrato,w_dependencia,w_rol,"plm"))
                 console.commit()  
-                msg = "Empleado creado satisfactoriamente"  
-        except:  
-            console.rollback()  
-            msg = "No se pudo agregar el empleado a la BD"  
-        finally:  
-#            return render_template("success.html",msg = msg)  
-            msg = "Proceso finalizado"  
+                msg = "Empleado creado satisfactoriamente"
 
-        console.close() 
 
-    return render_template('crearEmpleado.html', title = title, nombrePag="Crear Empleado", nombreIcono="fas fa-user-plus")
+            # Almacenar la Imagen del perfil
+            f = request.files['fotoPerfil']
+            # Guardamos el archivo en el directorio "Archivos PDF"
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], w_numeroId + ".png"))
+
+            console.close()
+            return render_template('crearEmpleado.html', title=title, nombrePag="Crear Empleado",
+                                   nombreIcono="fas fa-user-plus",
+                                   mensaje="El usuario con " + w_tipo + " " + w_numeroId + " ha sido creado Correctamente!",
+                                   tipoMensaje="success", mostrar="True")
+
+        except Exception as e:
+            console.rollback()
+            console.close()
+            mensaje="";
+            tipoMensaje = ""
+            if "UNIQUE constraint failed" in str(e):
+                mensaje="El usuario " + w_tipo + " " + w_numeroId + " ya se encuentra registrado!!"
+                tipoMensaje="warning"
+            else:
+                mensaje="Lo sentimos. El usuario NO ha sido creado Correctamente :("
+                tipoMensaje="danger"
+            return render_template('crearEmpleado.html', title=title, nombrePag="Crear Empleado",
+                                   nombreIcono="fas fa-user-plus",
+                                   mensaje=mensaje,
+                                   tipoMensaje=tipoMensaje, mostrar="True")
+
+    return render_template('crearEmpleado.html', title = title, nombrePag="Crear Empleado", nombreIcono="fas fa-user-plus",
+                           mostrar="False")
 
 @app.route('/admin/editarEmpleado',methods=['GET','POST'])
 def editarEmpleado():

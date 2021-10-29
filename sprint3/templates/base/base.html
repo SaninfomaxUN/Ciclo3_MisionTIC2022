@@ -25,7 +25,7 @@
 
 
     </head>
-    <body id="page-top">
+    <body id="page-top" onload="activarAlerta('{{ mensaje }}', '{{ tipoMensaje}}','{{ mostrar }}' )">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg colorAzulClaroFondo text-uppercase fixed-top" id="mainNav">
             <div class="container">
@@ -43,9 +43,12 @@
             </div>
         </nav>
 
+
+
         <!-- Plantilla Base de Contenido -->
         <section class="page-section masthead" id="contact">
             <div class="container ">
+                <div id="divAlerta"></div>
                 <!-- Titulo-->
                 <h2 class="page-section-heading text-center text-uppercase text-light mb-0">{{nombrePag}}</h2>
                 <!-- Divisor-->
@@ -78,5 +81,6 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <script type='text/javascript' src='../../static/js/admin.js'></script>
     </body>
 </html>

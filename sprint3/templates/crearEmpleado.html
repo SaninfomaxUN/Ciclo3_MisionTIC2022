@@ -7,11 +7,14 @@
     <div class="container colorAzulClaroFondo fondoPrincipal">
         <div class=" tamañoFormularioColumna login-form">
 <!--            <form class="form-form" action="/examples/actions/confirmation.php" method="POST">  -->
-            <form class="form-form" action="/admin/crearEmpleado" method="POST">
-                <div class="avatar">
-                    <img class="img-form" src="../static/assets/img/avatar.png" alt="Avatar">
+            <form class="form-form" action="/admin/crearEmpleado" method="POST" enctype="multipart/form-data">
+                <div class="">
+                    <img class="img-form avatar" id="fotoSubida" src="../static/assets/img/avatar.png" alt="Avatar">
                 </div>
                 <div class="form-group" style="margin-top: 5rem">
+                    <input type="file" id="fotoPerfil" name="fotoPerfil" class="form-control" accept="image/png, image/jpg, image/jpeg" onchange="mostrarLogoSubido()" required="required">
+                </div>
+                <div class="form-group" style="">
                     <input type="text" class="form-control" name="nombre" placeholder="Nombres" required="required">
                 </div>
                 <div class="form-group">
@@ -61,7 +64,21 @@
                    </div>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="cargo" placeholder="Cargo" required="required">
+                    <div class="container marginNuloLados paddingNuloLados">
+                      <div class="row">
+                          <div class="col-7">
+                            <input type="text" class="form-control" name="cargo" placeholder="Cargo" required="required">
+                          </div>
+                         <div class="col-5">
+                            <select class="form-control" name="ROL" required="required">
+                                <option hidden selected value="">ROL</option>
+                                <option value="SuperAdmin">SuperAdmin</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Empleado">Empleado</option>
+                            </select>
+                        </div>
+                      </div>
+                   </div>
                 </div>
                 <div class="form-group">
                    <div class="container marginNuloLados paddingNuloLados">
