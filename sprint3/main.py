@@ -30,15 +30,15 @@ def login():
         print(username)
         password = request.form['password']
         
-        with sqlite3.connect('db_mayordomo.db') as console:
+        with sqlite3.connect('db/db_mayordomo.db') as console:
             print("Conectado")
             cursor = console.cursor() 
             data = cursor.execute("SELECT * from empleados where numeroId = ?",(username,)).fetchone()
             if  data == None:
                 print("No existe el usuario")
                 return redirect(url_for("login"))
-            elif check_password_hash(data[14], password) == True:
-            # elif data[14] == password:
+            # elif check_password_hash(data[14], password) == True:
+            elif data[14] == password:
                 session['ID'] = username
                 session['rol'] = data[4]
                 print("sesion creada con exito " + "rol: " + session['rol'] + " " + "ID: " + session['ID'])
@@ -93,7 +93,7 @@ def buscarEmpleado():
             try: 
                 w_numeroId=request.form["numeroId"]
                 w_tipo=request.form["tipo"]
-                with sqlite3.connect("db_mayordomo.db") as console:  
+                with sqlite3.connect("db/db_mayordomo.db") as console:  
                     console.row_factory = sqlite3.Row  
                     cursor=console.cursor()  
                     statement="SELECT * FROM empleados WHERE (numeroId=?)"
@@ -142,10 +142,10 @@ def crearEmpleado():
                 w_salario=request.form["salario"]
                 w_fechaTerminoContrato=request.form["fechaTerminoContrato"]
                 w_dependencia=request.form["dependencia"] 
-                w_clave= generate_password_hash(request.form["clave"])
-                # w_clave = request.form["clave"]
+                # w_clave= generate_password_hash(request.form["clave"])
+                w_clave = request.form["clave"]
 
-                with sqlite3.connect("db_mayordomo.db") as console:  
+                with sqlite3.connect("db/db_mayordomo.db") as console:  
                     cursor=console.cursor()  
                     statement="INSERT into empleados (numeroId,tipo,nombre,apellido,direccion,telefono,fechaNacimiento, tipoContrato,fechaIngreso,cargo,salario,fechaTerminoContrato,dependencia,rol,clave) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
                     cursor.execute(statement,(w_numeroId,w_tipo,w_nombre,w_apellido,w_direccion,w_telefono,w_fechaNacimiento,w_tipoContrato,w_fechaIngreso,w_cargo,w_salario,w_fechaTerminoContrato,w_dependencia,w_clave," ","plm"))                
