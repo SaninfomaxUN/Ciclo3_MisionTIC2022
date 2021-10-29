@@ -13,13 +13,13 @@
   <div class="login-box">
     <img class="avatar" src="../static/assets/img/login_image.jfif">
     <h1></h1>
-    <form method="post" action={{ url_for('seleccionarRol') }}>
+    <form method="POST">
           <!--nombre de usuario-->
           <br/><label style="color: #318fc2" for="username">Número de identificación</label>
-          <input type="number" placeholder="Ingrese Número de identificación" required>
+          <input type="number" placeholder="Ingrese Número de identificación" name="username" required>
           <!--Contraseña-->
           <label style="color: #318fc2" for="password">Contraseña</label>
-          <input type="password" placeholder="Ingrese su contraseña" required>
+          <input type="password" placeholder="Ingrese su contraseña" name="password" required>
           <input type="submit" value="Iniciar sesión">
     </form>
   </div>
