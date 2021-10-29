@@ -1,3 +1,4 @@
+from sqlite3.dbapi2 import Cursor
 from flask import Flask, request
 from flask import render_template,url_for,redirect, session, render_template_string
 import sqlite3 
@@ -8,57 +9,55 @@ app.secret_key = "asdfghjklñ"
 
 @app.route("/",methods=['GET','POST'])
 def redireccionar(palabra=None):
-    try:
-        conexion = sqlite3.connect("db/db_mayordomo.db")
-        consulta = conexion.cursor()
-        sql = """
-                CREATE TABLE IF NOT EXISTS empleados(
-                    numeroId BIGINT PRIMARY KEY NOT NULL,
-                    tipo TEXT(2) NOT NULL,
-                    nombre TEXT(40) NOT NULL,
-                    apellido TEXT(40) NOT NULL,
-                    rol TEXT(15) NOT NULL,
-                    direccion TEXT(40) NOT NULL,
-                    telefono TEXT(10) NOT NULL,
-                    fechaNacimiento DATE NOT NULL,
-                    tipoContrato TEXT(10) NOT NULL,
-                    fechaIngreso DATE NOT NULL,
-                    cargo TEXT(15) NOT NULL,
-                    salario REAL(11,2) NOT NULL,
-                    fechaTerminoContrato DATE,
-                    dependencia TEXT(15) NOT NULL,
-                    clave TEXT(40) NOT NULL)
-                """
-        if(consulta.execute(sql)): 
-            print("Tabla creada a satisfacción")
-        else:
-            print("Falla en la creación")
-        conexion.commit()
-    except Error as e:
-        print(e)
-    finally:
-        if conexion:
-            consulta.close()
-    try:
-        conexion_2 = sqlite3.connect("db/db_mayordomo.db")
-        consulta_2 = conexion.cursor()
-        sql_2 = """
-                CREATE TABLE retroalimentacion (
-                    numeroId          BIGINT     REFERENCES empleados (numeroId) 
-                                                 NOT NULL,
-                    retroalimentacion TEXT (150) NOT NULL
-                );
-                """
-        if(consulta_2.execute(sql_2)): 
-            print("Tabla creada a satisfacción")
-        else:
-            print("Falla en la creación")
-        conexion_2.commit()
-    except Error as e:
-        print(e)
-    finally:
-        if conexion_2:
-            consulta_2.close()    
+    # try:
+    #     sql = """
+    #             CREATE TABLE IF NOT EXISTS empleados(
+    #                 numeroId BIGINT PRIMARY KEY NOT NULL,
+    #                 tipo TEXT(2) NOT NULL,
+    #                 nombre TEXT(40) NOT NULL,
+    #                 apellido TEXT(40) NOT NULL,
+    #                 rol TEXT(15) NOT NULL,
+    #                 direccion TEXT(40) NOT NULL,
+    #                 telefono TEXT(10) NOT NULL,
+    #                 fechaNacimiento DATE NOT NULL,
+    #                 tipoContrato TEXT(10) NOT NULL,
+    #                 fechaIngreso DATE NOT NULL,
+    #                 cargo TEXT(15) NOT NULL,
+    #                 salario REAL(11,2) NOT NULL,
+    #                 fechaTerminoContrato DATE,
+    #                 dependencia TEXT(15) NOT NULL,
+    #                 clave TEXT(40) NOT NULL)
+    #             """
+    #     if(consulta.execute(sql)): 
+    #         print("Tabla creada a satisfacción")
+    #     else:
+    #         print("Falla en la creación")
+    #     conexion.commit()
+    # except Error as e:
+    #     print(e)
+    # finally:
+    #     if conexion:
+    #         consulta.close()
+    # try:
+    #     conexion_2 = sqlite3.connect("db/db_mayordomo.db")
+    #     consulta_2 = conexion.cursor()
+    #     sql_2 = """
+    #             CREATE TABLE retroalimentacion (
+    #                 numeroId          BIGINT     REFERENCES empleados (numeroId) 
+    #                                              NOT NULL,
+    #                 retroalimentacion TEXT (150) NOT NULL
+    #             );
+    #             """
+    #     if(consulta_2.execute(sql_2)): 
+    #         print("Tabla creada a satisfacción")
+    #     else:
+    #         print("Falla en la creación")
+    #     conexion_2.commit()
+    # except Error as e:
+    #     print(e)
+    # finally:
+    #     if conexion_2:
+    #         consulta_2.close()    
     return redirect(url_for("login"))
 
 @app.route("/<palabra>",methods=['GET','POST'])
@@ -137,26 +136,25 @@ def dashboard():
     else:
         return render_template_string('acceso denegado')
 
+
 @app.route('/admin/buscarEmpleado',methods=['GET','POST'])
 def buscarEmpleado():
     if 'ID' in session and session['rol'] == "admin":
         if request.method == "POST": 
             try: 
                 w_numeroId=request.form["numeroId"]
-                w_tipo=request.form["tipo"]
-                with sqlite3.connect("db/db_mayordomo.db") as console:  
-                    console.row_factory = sqlite3.Row  
-                    cursor=console.cursor()  
-                    statement="SELECT * FROM empleados WHERE (numeroId=?)"
-                    cursor.execute(statement,(w_numeroId))  
-                    rows=cursor.fetchall()
-                    msg="Empleado existente en la bd"
+                print(w_numeroId)
+                with sqlite3.connect('db/db_mayordomo.db') as console:
+                    console.row_factory = sqlite3.Row
+                    cursor = console.cursor() 
+                    cursor.execute("SELECT * from empleados where numeroId = ?",(w_numeroId,)) 
+                    rows = cursor.fetchall()
                     return render_template("mostrarEmpleado.html",rows=rows)
             except:
-                msg = "Registro no encontrado en la BD"
+                print("Registro no encontrado en la BD")
             finally:  
-                console.close() 
-            return render_template("mostrarEmpleado.html",rows=rows) 
+                print("Conexion cerrada")
+            return render_template("mostrarEmpleado.html") 
 
         title = "Buscar Empleado"
         return render_template('buscarEmpleado.html', title = title, nombrePag="Buscar Empleado", nombreIcono="fas fa-search")
