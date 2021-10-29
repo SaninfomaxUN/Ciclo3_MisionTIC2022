@@ -6,7 +6,7 @@ import sqlite3
 #    print(ex) 
 
 #Conectar a la bd
-conexion = sqlite3.connect("db/db_mayordomo.db")
+conexion = sqlite3.connect("db_mayordomo.db")
 
 #Seleccionar el cursos para realizar la consulta
 consulta = conexion.cursor()
