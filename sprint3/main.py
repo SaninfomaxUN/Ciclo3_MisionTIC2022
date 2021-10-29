@@ -8,58 +8,6 @@ app.secret_key = "asdfghjklñ"
 
 @app.route("/",methods=['GET','POST'])
 def redireccionar(palabra=None):
-    try:
-        conexion = sqlite3.connect("db/db_mayordomo.db")
-        consulta = conexion.cursor()
-        sql = """
-                CREATE TABLE IF NOT EXISTS empleados(
-                    numeroId BIGINT PRIMARY KEY NOT NULL,
-                    tipo TEXT(2) NOT NULL,
-                    nombre TEXT(40) NOT NULL,
-                    apellido TEXT(40) NOT NULL,
-                    rol TEXT(15) NOT NULL,
-                    direccion TEXT(40) NOT NULL,
-                    telefono TEXT(10) NOT NULL,
-                    fechaNacimiento DATE NOT NULL,
-                    tipoContrato TEXT(10) NOT NULL,
-                    fechaIngreso DATE NOT NULL,
-                    cargo TEXT(15) NOT NULL,
-                    salario REAL(11,2) NOT NULL,
-                    fechaTerminoContrato DATE,
-                    dependencia TEXT(15) NOT NULL,
-                    clave TEXT(40) NOT NULL)
-                """
-        if(consulta.execute(sql)): 
-            print("Tabla creada a satisfacción")
-        else:
-            print("Falla en la creación")
-        conexion.commit()
-    except Error as e:
-        print(e)
-    finally:
-        if conexion:
-         consulta.close()
-
-    try:
-        conexion = sqlite3.connect("db/db_mayordomo.db")
-        consulta = conexion.cursor()
-        sql = """
-                CREATE TABLE retroalimentacion (
-                    numeroId          BIGINT     REFERENCES empleados (numeroId) 
-                                                 NOT NULL,
-                    retroalimentacion TEXT (150) NOT NULL
-                );
-                """
-        if(consulta.execute(sql)): 
-            print("Tabla creada a satisfacción")
-        else:
-            print("Falla en la creación")
-        conexion.commit()
-    except Error as e:
-        print(e)
-    finally:
-        if conexion:
-            consulta.close()        
     return redirect(url_for("login"))
 
 @app.route("/<palabra>",methods=['GET','POST'])
