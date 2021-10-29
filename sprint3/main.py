@@ -34,17 +34,17 @@ def login():
             print("Conectado")
             cursor = console.cursor() 
             data = cursor.execute("SELECT * from empleados where numeroId = ?",(username,)).fetchone()
-            rolUsuario = data[4]
             if  data == None:
                 print("No existe el usuario")
                 return redirect(url_for("login"))
             elif check_password_hash(data[14], password) == True:
+            # elif data[14] == password:
                 session['ID'] = username
-                session['rol'] = rolUsuario
+                session['rol'] = data[4]
                 print("sesion creada con exito " + "rol: " + session['rol'] + " " + "ID: " + session['ID'])
                 print("loggin success")
-                if rolUsuario == "admin":
-                    return redirect(url_for("dashboard"))
+                if session['rol'] == "admin":
+                    return redirect(url_for("seleccionarRol"))
                 else:
                     return redirect(url_for("dashboardEmpleado"))
             else: 
@@ -143,6 +143,7 @@ def crearEmpleado():
                 w_fechaTerminoContrato=request.form["fechaTerminoContrato"]
                 w_dependencia=request.form["dependencia"] 
                 w_clave= generate_password_hash(request.form["clave"])
+                # w_clave = request.form["clave"]
 
                 with sqlite3.connect("db_mayordomo.db") as console:  
                     cursor=console.cursor()  
