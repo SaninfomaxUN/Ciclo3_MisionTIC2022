@@ -80,7 +80,7 @@ def dashboardEmpleado():
 
 @app.route('/admin/',methods=['GET','POST'])
 def dashboard():
-    if session['rol'] == "admin":
+    if 'ID' in session and session['rol'] == "admin":
         title = "Dashboard"
         return render_template('dashboard.html', title = title, nombrePag="Dashboard", nombreIcono="fas fa-clipboard-list")
     else:
@@ -88,7 +88,7 @@ def dashboard():
 
 @app.route('/admin/buscarEmpleado',methods=['GET','POST'])
 def buscarEmpleado():
-    if session['rol'] == "admin":
+    if 'ID' in session and session['rol'] == "admin":
         if request.method == "POST": 
             try: 
                 w_numeroId=request.form["numeroId"]
@@ -115,7 +115,7 @@ def buscarEmpleado():
 
 @app.route('/admin/gestionarRetroalimentacion',methods=['GET','POST'])
 def gestionarRetro():
-    if session['rol'] == "admin":
+    if 'ID' in session and session['rol'] == "admin":
         title = "Gestionar Retroalimentación"
         return render_template('gestionarRetro.html', title = title, nombrePag="Gestionar Retroalimentación", nombreIcono="fas fa-search")
     else:
@@ -123,7 +123,7 @@ def gestionarRetro():
 
 @app.route('/admin/crearEmpleado',methods=['GET','POST'])
 def crearEmpleado():
-    if session['rol'] == "admin":
+    if 'ID' in session and session['rol'] == "admin":
         title = "Crear Empleado"
         msg = ""  
         if request.method == "POST":  
@@ -166,7 +166,7 @@ def crearEmpleado():
 
 @app.route('/admin/editarEmpleado',methods=['GET','POST'])
 def editarEmpleado():
-    if session['rol'] == "admin":
+    if 'ID' in session and session['rol'] == "admin":
         title = "Editar Empleado"
         msg = ""  
         if request.method == "POST":  
@@ -206,7 +206,7 @@ def editarEmpleado():
 
 @app.route('/admin/eliminarEmpleado',methods=['GET','POST'])
 def eliminarEmpleado():
-    if session['rol'] == "admin":
+    if 'ID' in session and session['rol'] == "admin":
         title = "Eliminar Empleado"
         msg=""
         if request.method == "POST":      
