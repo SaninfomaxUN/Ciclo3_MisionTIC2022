@@ -45,10 +45,10 @@ def redireccionar(palabra=None):
     #     conexion_2 = sqlite3.connect("db/db_mayordomo.db")
     #     consulta_2 = conexion.cursor()
     #     sql_2 = """
-    #             CREATE TABLE retroalimentacion (
+    #             CREATE TABLE IF NOT EXISTS retroalimentaciones (
     #                 numeroId          BIGINT     REFERENCES empleados (numeroId)
     #                                              NOT NULL,
-    #                 retroalimentacion TEXT (150) NOT NULL
+    #                 retroalimentacion TEXT (500) NOT NULL
     #             );
     #             """
     #     if(consulta_2.execute(sql_2)):
@@ -118,6 +118,25 @@ def seleccionarRol():
 def retroalimentacion():
     if 'ID' in session:
         title = "Retroaliemntacion"
+        if request.method == "POST":
+            try:
+                w_numeroId = int(request.form["numeroId"])
+                w_retro = request.form["contenido"]
+                with sqlite3.connect("db/db_mayordomo.db") as console:
+                    cursor = console.cursor()
+                    statement = "UPDATE retroalimentaciones set retroalimentacion=? WHERE numeroId=?"
+                    cursor.execute(statement, (w_retro, w_numeroId))
+                    console.commit()
+            #               La retroalimentación se pudo actualizar
+            except:
+                console.rollback()
+            #            La retroalimentación no se pudo guardar
+            finally:
+                console.close()
+
+
+
+
         return render_template('retroalimentacion.html', title = title, nombrePag="Retroalimentación", nombreIcono="fas fa-chart-bar")
     else:
         return render_template_string('acceso denegado')

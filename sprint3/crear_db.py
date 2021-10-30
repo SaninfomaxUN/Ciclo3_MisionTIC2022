@@ -36,6 +36,20 @@ if(consulta.execute(sql)):
 else:
     print("Falla en la creación")
 
+#Segunda Tabla
+sql_2 = """
+    CREATE TABLE IF NOT EXISTS retroalimentaciones (
+    numeroId BIGINT REFERENCES empleados (numeroId) NOT NULL,
+    retroalimentacion TEXT (500) NOT NULL)"""
+
+#Ejecutar la consulta_2
+if(consulta.execute(sql_2)):
+    print("Tabla creada a satisfacción")
+else:
+    print("Falla en la creación")
+
+
+
 #Terminar la consulta
 consulta.close()
 
