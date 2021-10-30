@@ -7,7 +7,7 @@
         <div class="row  justify-content-start" style=" z-index: 50">
             <div class="col-sm-7">
                 <div class=" tamañoFormularioColumna login-form" style="padding-top: 0 !important">
-                    <form class="form-form" style="background: #c4c4c4 !important" action="#" method="POST">
+                    <form class="form-form" style="background: #c4c4c4 !important" method="POST">
                         <h2 class="text-center " style="font-family: 'Roboto', sans-serif;">Buscar por:</h2>
                         <div class="form-group">
                             <div class="container marginNuloLados paddingNuloLados">
@@ -26,20 +26,20 @@
                             </div>
                         </div>
                         <div class="form-group d-grid gap-2 col-4 mx-auto" style="z-index: 100">
-                            <button type="submit" class="btn btnBuscar btn-primary btn-lg"><i class="fas fa-search fa-2x text-black"></i></button>
+                            <button type="submit" name="btnConsultar" value="btnConsultar" class="btn btnBuscar btn-primary btn-lg"><i class="fas fa-search fa-2x text-black"></i></button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="col-sm-4 login-form" style="padding: 0 !important;">
                 <div class="avatar" style="position: initial !important;">
-                    <img class="img-fluid img-form" src="../static/assets/img/avatar.png" alt="Avatar">
+                    <img class="img-fluid img-form avatar" style="top: 0 !important;" id="fotoPerfil" src="../static/assets/img/avatar.png" alt="Avatar">
                 </div>
             </div>
             <div class="col-sm-1"></div>
         </div>
         <div class="login-form" style="padding-top: 0 !important">
-            <form class="form-form" action="#" method="POST">
+            <form class="form-form" method="POST" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-6">
                         <!--<h2 class="text-center h2-form">Member Login</h2>-->
@@ -82,6 +82,9 @@
                         </div>
                     </div>
                     <div class="col-md-6">
+                        <div class="form-group" >
+                            <input type="file" id="fotoSubida" name="fotoSubida" class="form-control" accept="image/png, image/jpg, image/jpeg" onchange="mostrarLogoSubido()"">
+                        </div>
                         <div class="form-group">
                            <div class="container marginNuloLados paddingNuloLados">
                               <div class="row">
@@ -95,7 +98,21 @@
                            </div>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="cargo" placeholder="Cargo" required="required" readonly>
+                            <div class="container marginNuloLados paddingNuloLados">
+                              <div class="row">
+                                  <div class="col-7">
+                                    <input type="text" class="form-control" name="cargo" placeholder="Cargo" required="required"  readonly>
+                                  </div>
+                                 <div class="col-5">
+                                    <select class="form-control"id="rol" name="rol" required="required" disabled>
+                                        <option hidden selected value="">Rol</option>
+                                        <option value="SuperAdmin">SuperAdmin</option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="Empleado">Empleado</option>
+                                    </select>
+                                </div>
+                              </div>
+                           </div>
                         </div>
                         <div class="form-group">
                            <div class="container marginNuloLados paddingNuloLados">
@@ -114,11 +131,21 @@
                         </div>
                     </div>
                     <div class="row justify-content-md-center  col-3 mx-auto">
-                        <button type="submit" style="background-color: #d23530; border-color: #d23530; max-width: 100px" class="btn btn-primary btn-lg" disabled><i class="fas fa-edit fa-2x text-light"></i></button>
+                        <button type="submit" name="btnEditar"  style="background-color: #d23530; border-color: #d23530; max-width: 100px" class="btn btn-primary btn-lg" disabled><i class="fas fa-edit fa-2x text-light"></i></button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+    <script type="text/javascript">
+        activarInformacionUsuario("{{mostrarDatos}}")
 
+            function activarInformacionUsuario(boolean="False"){
+               if (boolean == "True") {
+                    mostrarInformacionUsuario('{{ jsonDatos|safe}}')
+                    habilitarCampos();
+                  }
+            }
+
+    </script>
 {% endblock %}

@@ -289,7 +289,7 @@ def crearEmpleado():
 
 
                     # Almacenar la Imagen del perfil
-                    f = request.files['fotoPerfil']
+                    f = request.files['fotoSubida']
                     # Guardamos el archivo en el directorio "Archivos PDF"
                     f.save(os.path.join(app.config['UPLOAD_FOLDER'], w_numeroId + ".png"))
 
@@ -330,38 +330,95 @@ def editarEmpleado():
         if 'ID' in session and session['rol'] == "Admin" or session['rol'] == "SuperAdmin":
             title = "Editar Empleado"
             msg = ""
+
             if request.method == "POST":
-                try:
-                    w_numeroId=int(request.form["numeroId"])
-                    w_tipo=request.form["tipo"]
-                    w_nombre=request.form["nombre"]
-                    w_apellido=request.form["apellido"]
-                    w_direccion=request.form["direccion"]
-                    w_telefono=request.form["telefono"]
-                    w_fechaNacimiento=request.form["fechaNacimiento"]
-                    w_tipoContrato=request.form["tipoContrato"]
-                    w_fechaIngreso=request.form["fechaIngreso"]
-                    w_cargo=request.form["cargo"]
-                    w_rol = request.form["rol"]
-                    w_salario=request.form["salario"]
-                    w_fechaTerminoContrato=request.form["fechaTerminoContrato"]
-                    w_dependencia=request.form["dependencia"]
-                    with sqlite3.connect("db/db_mayordomo.db") as console:
-                        cursor=console.cursor()
-                        statement="UPDATE empleados set tipo=?,nombre=?,apellido=?,direccion=?,telefono=?,fechaNacimiento=?,tipoContrato=?,fechaIngreso=?,cargo=?,salario=?,fechaTerminoContrato=?,dependencia=?, rol=? WHERE numeroId=?"
-                        cursor.execute(statement,(w_tipo,w_nombre,w_apellido,w_direccion,w_telefono,w_fechaNacimiento,w_tipoContrato,w_fechaIngreso,w_cargo,w_salario,w_fechaTerminoContrato,w_dependencia,w_rol,w_numeroId))
-                        console.commit()
-                        msg = "Empleado actualizado satisfactoriamente"
-                except:
-                    console.rollback()
-                    msg = "No se pudo actualizar la información del empleado en la BD"
-                finally:
-                    #return render_template("success.html",msg = msg)
-                    msg = "Proceso finalizado"
+                if 'btnConsultar' in request.form:
+                    try:
+                        print("entre a buscar")
+                        w_numeroId = request.form["numeroId"]
+                        w_tipo = request.form["tipo"]
+                        print(w_numeroId)
+                        with sqlite3.connect("db/db_mayordomo.db") as console:
+                            console.row_factory = sqlite3.Row
+                            cursor = console.cursor()
+                            cursor.execute("SELECT * from empleados where numeroId = ? AND tipo=?", (w_numeroId, w_tipo,))
+                            rows = cursor.fetchall()
+                            print(json.dumps([dict(ix) for ix in rows]))
+                            if rows:
+                                return render_template('editarEmpleado.html', title = title, nombrePag="Editar Empleado", nombreIcono="fas fa-user-edit",
+                                                       jsonDatos=json.dumps([dict(ix) for ix in rows]), mostrarDatos="True")
+                            else:
 
-                console.close()
+                                return render_template('editarEmpleado.html', title = title, nombrePag="Editar Empleado", nombreIcono="fas fa-user-edit",
+                                                       jsonDatos=json.dumps([dict(ix) for ix in rows]),
+                                                       mostrarDatos="False",
+                                                       mensaje="El numero de identificación ingresado no se encuentra registrado. Por favor verifique su <b>tipo de documento</b>, ingrese <b>otro numero</b>, o <b>contacte al administrador</b> para su respectivo registro!",
+                                                       tipoMensaje="warning", mostrar="True")
+                    except:
+                        print("Registro no encontrado en la BD")
+                        return render_template('editarEmpleado.html', title = title, nombrePag="Editar Empleado", nombreIcono="fas fa-user-edit", jsonDatos=json.dumps([dict(ix) for ix in rows]),
+                                               mostrarDatos="False",
+                                               mensaje="El numero de identificación ingresado no se encuentra registrado. Por favor verifique su <b>tipo de documento</b>, ingrese <b>otro numero</b>, o <b>contacte al administrador</b> para su respectivo registro!",
+                                               tipoMensaje="warning", mostrar="True")
 
-            return render_template('editarEmpleado.html', title = title, nombrePag="Editar Empleado", nombreIcono="fas fa-user-edit")
+                    return render_template('editarEmpleado.html', title=title, nombrePag="Editar Empleado",
+                                       nombreIcono="fas fa-user-edit",
+                                       jsonDatos=json.dumps({}), mostrarDatos="False",
+                                       mensaje="El numero de identificación ingresado no se encuentra registrado. Por favor ingrese otro numero o contacte al administrador para su respectivo registro!",
+                                       tipoMensaje="danger", mostrar="True")
+                elif 'btnEditar' in request.form:
+                    try:
+                        w_numeroId=int(request.form["numeroId"])
+                        w_tipo=request.form["tipo"]
+                        w_nombre=request.form["nombre"]
+                        w_apellido=request.form["apellido"]
+                        w_direccion=request.form["direccion"]
+                        w_telefono=request.form["telefono"]
+                        w_fechaNacimiento=request.form["fechaNacimiento"]
+                        w_tipoContrato=request.form["tipoContrato"]
+                        w_fechaIngreso=request.form["fechaIngreso"]
+                        w_cargo=request.form["cargo"]
+                        w_rol = request.form["rol"]
+                        w_salario=request.form["salario"]
+                        w_fechaTerminoContrato=request.form["fechaTerminoContrato"]
+                        w_dependencia=request.form["dependencia"]
+                        with sqlite3.connect("db/db_mayordomo.db") as console:
+                            cursor=console.cursor()
+                            statement="UPDATE empleados set tipo=?,nombre=?,apellido=?,direccion=?,telefono=?,fechaNacimiento=?,tipoContrato=?,fechaIngreso=?,cargo=?,salario=?,fechaTerminoContrato=?,dependencia=?, rol=? WHERE numeroId=?"
+                            cursor.execute(statement,(w_tipo,w_nombre,w_apellido,w_direccion,w_telefono,w_fechaNacimiento,w_tipoContrato,w_fechaIngreso,w_cargo,w_salario,w_fechaTerminoContrato,w_dependencia,w_rol,w_numeroId))
+                            console.commit()
+
+                            # Almacenar la Imagen del perfil
+                            f = request.files['fotoSubida']
+                            # Guardamos el archivo en el directorio "Archivos PDF"
+                            f.save(os.path.join(app.config['UPLOAD_FOLDER'], str(w_numeroId) + ".png"))
+
+                            msg = "Empleado actualizado satisfactoriamente"
+                        return render_template('editarEmpleado.html', title=title, nombrePag="Editar Empleado",
+                                   nombreIcono="fas fa-user-edit",
+                                               mensaje="El usuario identificado con <b>" + w_tipo + " " + str(w_numeroId) + "</b> ha sido <b>actualizado</b> satisfactoriamente!",
+                                               tipoMensaje="success", mostrar="True")
+                    except Exception as e:
+                        print(e)
+
+                        console.rollback()
+                        msg = "No se pudo actualizar la información del empleado en la BD"
+                        return render_template('editarEmpleado.html', title=title, nombrePag="Editar Empleado",
+                                               nombreIcono="fas fa-user-edit",
+                                               jsonDatos=json.dumps({}), mostrarDatos="False",
+                                               mensaje="Lo sentimos. El usuario <b>"+str(w_numeroId)+"</b> no se pudo actualizar. Por favor intente de nuevo!",
+                                               tipoMensaje="danger", mostrar="True")
+
+                    console.close()
+                    return render_template('editarEmpleado.html', title=title, nombrePag="Editar Empleado",
+                                           nombreIcono="fas fa-user-edit",
+                                           jsonDatos=json.dumps({}), mostrarDatos="False",
+                                           mensaje="Lo sentimos. El usuario <b>" + w_numeroId + "</b> no se pudo actualizar. Por favor intente de nuevo!",
+                                           tipoMensaje="danger", mostrar="True")
+                else:
+                    return redirect(url_for("editarEmpleado"));
+            return render_template('editarEmpleado.html', title=title, nombrePag="Editar Empleado",
+                                   nombreIcono="fas fa-user-edit")
         else:
             return redirect(url_for('accesoDenegado'))
     else:
