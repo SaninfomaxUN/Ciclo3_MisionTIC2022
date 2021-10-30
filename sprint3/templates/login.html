@@ -2,26 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="../static/css/login.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Marcellus+SC&display=swap" rel="stylesheet">
 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <link href="../../static/css/styles.css" rel="stylesheet" />
+
 </head>
-<body>
-  <div class="login-box">
-    <img class="avatar" src="../static/assets/img/login_image.jfif">
-    <h1></h1>
-    <form method="post">
-          <!--nombre de usuario-->
-          <br/><label style="color: #318fc2" for="username">Número de identificación</label>
-          <input type="number" placeholder="Ingrese Número de identificación" name="username"  required>
-          <!--Contraseña-->
-          <label style="color: #318fc2" for="password">Contraseña</label>
-          <input type="password" placeholder="Ingrese su contraseña" name="password"  required>
-          <input type="submit" value="Iniciar sesión">
-    </form>
-  </div>
+<body onload="activarAlerta('{{ mensaje }}', '{{tipoMensaje}}','{{ mostrar }}' )">
+<div class="container">
+    <div id="divAlerta"></div>
+      <div class="login-box">
+        <img class="avatar" src="../static/assets/img/login_image.jfif">
+        <form method="post"  >
+              <!--nombre de usuario-->
+              <br/><label style="color: #318fc2" for="username">Número de identificación</label>
+              <input type="number" placeholder="Ingrese Número de identificación" name="username"  required>
+              <!--Contraseña-->
+              <label style="color: #318fc2" for="password">Contraseña</label>
+              <input type="password" placeholder="Ingrese su contraseña" name="password"  required>
+              <input type="submit" value="Iniciar sesión">
+        </form>
+      </div>
+</div>
 </body>
+<footer>
+    <!-- Copyright Section-->
+        <div class=" py-4 text-center text-white">
+            <div class="container text-black">&copy; Sistema de Gestión de Empleados - G37_9</div>
+        </div>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script type='text/javascript' src='../../static/js/admin.js'></script>
+</footer>
 </html>

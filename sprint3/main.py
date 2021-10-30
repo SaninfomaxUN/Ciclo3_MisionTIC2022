@@ -1,3 +1,4 @@
+import json
 from sqlite3.dbapi2 import Cursor
 from flask import Flask, request
 from flask import render_template,url_for,redirect, session, render_template_string
@@ -77,6 +78,7 @@ def redireccionarDashEmpleado(palabra=None):
 
 @app.route("/login",methods=['GET','POST'])
 def login():
+    title = "Bienvenido - Iniciar Sesión"
     if request.method == 'POST':
         print("POST")
         username = request.form['username']
@@ -89,11 +91,14 @@ def login():
             data = cursor.execute("SELECT * from empleados where numeroId = ?", (username,)).fetchone()
             if data == None:
                 print("No existe el usuario")
-                return redirect(url_for("login"))
+                return render_template('login.html', title=title,
+                                       mensaje="El numero de identificación ingresado no se encuentra registrado. Por favor contacte al administrador para su respectivo registro!",
+                                       tipoMensaje="danger", mostrar="True")
             # elif check_password_hash(data[14], password) == True:
             elif data[14] == password:
                 session['ID'] = username
                 session['rol'] = data[4]
+                session['nombreUsuario'] = data[2]
                 print("sesion creada con exito " + "rol: " + session['rol'] + " " + "ID: " + session['ID'])
                 print("loggin success")
                 if session['rol'] == "admin":
@@ -101,9 +106,13 @@ def login():
                 else:
                     return redirect(url_for("dashboardEmpleado"))
             else:
-                print("usuario o contraseña incorrecto")
-                return redirect(url_for("login"))
-    return render_template('login.html')
+                return render_template('login.html', title=title,
+                                       mensaje = "Usuario o Contraseña Incorrectos. Por favor intente de nuevo!",
+                tipoMensaje = "warning", mostrar = "True")
+    else:
+
+        return render_template('login.html', title=title,
+                           mensaje="",tipoMensaje="", mostrar="False")
 
 @app.route("/logout")
 def logout():
@@ -162,28 +171,43 @@ def dashboard():
 
 @app.route('/admin/buscarEmpleado',methods=['GET','POST'])
 def buscarEmpleado():
+    title = "Buscar Empleado"
     if 'ID' in session and session['rol'] == "admin":
         print("entre a buscar")
         if request.method == "POST":
             try:
                 print("entre a buscar")
                 w_numeroId=request.form["numeroId"]
+                w_tipo=request.form["tipo"]
                 print(w_numeroId)
                 with sqlite3.connect("db/db_mayordomo.db") as console:
                     console.row_factory = sqlite3.Row
                     cursor=console.cursor()
-                    cursor.execute("SELECT * from empleados where numeroId = ?",(w_numeroId,))
+                    cursor.execute("SELECT * from empleados where numeroId = ? AND tipo=?",(w_numeroId,w_tipo,))
                     rows=cursor.fetchall()
-                    return render_template("mostrarEmpleado.html",rows=rows)
+                    print(json.dumps([dict(ix) for ix in rows] ))
+                    if rows:
+                        return render_template("buscarEmpleado.html",title = title, nombrePag="Buscar Empleado", nombreIcono="fas fa-search", jsonDatos=json.dumps([dict(ix) for ix in rows] ),mostrarDatos="True")
+                    else:
+
+                        return render_template("buscarEmpleado.html", title=title, nombrePag="Buscar Empleado",
+                                           nombreIcono="fas fa-search", jsonDatos=json.dumps([dict(ix) for ix in rows]),
+                                           mostrarDatos="False",
+                                           mensaje="El numero de identificación ingresado no se encuentra registrado. Por favor verifique su <b>tipo de documento</b>, ingrese <b>otro numero</b>, o <b>contacte al administrador</b> para su respectivo registro!",
+                                           tipoMensaje="warning", mostrar="True")
             except:
                 print("Registro no encontrado en la BD")
-            finally:
-                print("Conexion cerrada")
-                console.close()
-            return render_template("mostrarEmpleado.html",rows=rows)
+                return render_template("buscarEmpleado.html",title = title, nombrePag="Buscar Empleado", nombreIcono="fas fa-search", jsonDatos=json.dumps([dict(ix) for ix in rows] ),mostrarDatos="False",
+                                       mensaje="El numero de identificación ingresado no se encuentra registrado. Por favor verifique su <b>tipo de documento</b>, ingrese <b>otro numero</b>, o <b>contacte al administrador</b> para su respectivo registro!",
+                                       tipoMensaje="warning", mostrar="True")
 
-        title = "Buscar Empleado"
-        return render_template('buscarEmpleado.html', title = title, nombrePag="Buscar Empleado", nombreIcono="fas fa-search")
+
+
+
+
+        return render_template('buscarEmpleado.html', title = title, nombrePag="Buscar Empleado", nombreIcono="fas fa-search", jsonDatos=json.dumps({}),mostrarDatos="False",
+                                       mensaje="El numero de identificación ingresado no se encuentra registrado. Por favor ingrese otro numero o contacte al administrador para su respectivo registro!",
+                                       tipoMensaje="danger", mostrar="False")
     else:
         return render_template_string('acceso denegado')
 

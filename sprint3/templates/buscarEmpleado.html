@@ -3,7 +3,6 @@
 
 {% block content %}
 
-
     <div class="container" style="padding-top: 3rem">
         <div class="row justify-content-around">
 
@@ -42,11 +41,11 @@
                     <div class=" tamañoFormularioColumna login-form">
                         <form class="form-form" action="#" method="POST">
                             <div class="avatar">
-                                <img class="img-fluid img-form" src="../static/assets/img/avatar.png" alt="Avatar">
+                                <img class="img-fluid img-form avatar" style="top: 0 !important;" id="fotoPerfil" src="../static/assets/img/avatar.png" alt="Avatar">
                             </div>
                             <!--<h2 class="text-center h2-form">Member Login</h2>-->
                             <div class="form-group" style="margin-top: 5rem">
-                                <input type="text" class="form-control" name="nombre" placeholder="Nombres" required="required" readonly>
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombres" required="required" readonly>
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="apellido" placeholder="Apellidos" required="required" readonly>
@@ -55,7 +54,7 @@
                                 <div class="container marginNuloLados paddingNuloLados">
                                     <div class="row">
                                         <div class="col-4">
-                                            <select class="form-control" name="tipo" required="required" disabled>
+                                            <select class="form-control"  name="tipo" required="required" disabled>
                                                <option hidden selected value="">Tipo</option>
                                                <option value="CC">CC</option>
                                                <option value="CE">CE</option>
@@ -95,7 +94,21 @@
                                </div>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="cargo" placeholder="Cargo" required="required" readonly>
+                                <div class="container marginNuloLados paddingNuloLados">
+                                  <div class="row">
+                                      <div class="col-7">
+                                        <input type="text" class="form-control" name="cargo" placeholder="Cargo" required="required"  readonly>
+                                      </div>
+                                     <div class="col-5">
+                                        <select class="form-control"id="rol" name="rol" required="required" disabled>
+                                            <option hidden selected value="">Rol</option>
+                                            <option value="superAdmin">superAdmin</option>
+                                            <option value="admin">admin</option>
+                                            <option value="empleado">empleado</option>
+                                        </select>
+                                    </div>
+                                  </div>
+                               </div>
                             </div>
                             <div class="form-group">
                                <div class="container marginNuloLados paddingNuloLados">
@@ -119,6 +132,17 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+
+        activarInformacionUsuario("{{mostrarDatos}}")
+
+            function activarInformacionUsuario(boolean="False"){
+               if (boolean == "True") {
+                    mostrarInformacionUsuario('{{ jsonDatos|safe}}')
+                  }
+            }
+
+        </script>
 
 
 {% endblock %}
