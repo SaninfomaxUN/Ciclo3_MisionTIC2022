@@ -1,124 +1,124 @@
 {% extends 'base/base.html' %}
 {% block title %}{{ title }}{% endblock %}
 
-{% block content %}
+{% block content %} 
 
-
-    <div class="container" style="padding-top: 3rem">
-        <div class="row justify-content-around">
-
-            <!-- Formulario de busqueda -->
-            <div class="col-md-6">
-                <div class=" tamañoFormularioColumna login-form">
-                    <form class="form-form" style="background: #c4c4c4 !important" action="#" method="POST">
-                        <h2 class="text-center " style="font-family: 'Roboto', sans-serif;">Buscar por:</h2>
-                        <div class="form-group">
-                            <div class="container marginNuloLados paddingNuloLados">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <select class="form-control" name="tipo" required="required">
-                                           <option hidden selected value="">Tipo</option>
-                                           <option value="CC">CC</option>
-                                           <option value="CE">CE</option>
+<div class="container" style="padding-top: 3rem">
+    <div class="row justify-content-around">
+        
+        <!-- Formulario de busqueda -->
+        <div class="col-md-6">
+            <div class=" tamañoFormularioColumna login-form">
+                <form class="form-form" style="background: #c4c4c4 !important" action="#" method="POST"> 
+                    <h2 class="text-center " style="font-family: 'Roboto', sans-serif;">Buscar por:</h2>
+                    <div class="form-group">
+                        <div class="container marginNuloLados paddingNuloLados">
+                            <div class="row">
+                                        <div class="col-4">
+                                            <select class="form-control" name="tipo" required="required">
+                                                <option hidden selected>Tipo</option>
+                                            <option value="CC">CC</option>
+                                            <option value="CE">CE</option>
                                         </select>
                                     </div>
                                     <div class="col-8">
                                         <input type="number" class="form-control" name="numeroId" placeholder="Número de identificación" required="required">
                                     </div>
-                              </div>
+                                </div>
                             </div>
                         </div>
-
+                        
                         <div class="form-group d-grid gap-2 col-4 mx-auto">
                             <button type="submit" class="btn btnBuscar btn-primary btn-lg"><i class="fas fa-search fa-2x text-black"></i></button>
                         </div>
                     </form>
                 </div>
             </div>
-
-            <!-- Formulario de consulta de datos-->
-            <div class="col-md-6">
-                <div class="container colorAzulClaroFondo fondoPrincipal">
-                    <div class=" tamañoFormularioColumna login-form">
-                        <form class="form-form" action="#" method="POST">
-                            <div class="avatar">
-                                <img class="img-fluid img-form" src="../static/assets/img/avatar.png" alt="Avatar">
-                            </div>
-                            <!--<h2 class="text-center h2-form">Member Login</h2>-->
-                            <div class="form-group" style="margin-top: 5rem">
-                                <input type="text" class="form-control" name="nombre" placeholder="Nombres" required="required" readonly>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="apellido" placeholder="Apellidos" required="required" readonly>
-                            </div>
-                            <div class="form-group">
-                                <div class="container marginNuloLados paddingNuloLados">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <select class="form-control" name="tipo" required="required" disabled>
-                                               <option hidden selected value="">Tipo</option>
-                                               <option value="CC">CC</option>
-                                               <option value="CE">CE</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-8">
-                                            <input type="number" class="form-control" name="numeroId" placeholder="Número de identificación" required="required" readonly>
-                                        </div>
-                                  </div>
+            
+            {% for row in rows %}  
+                <!-- Formulario de consulta de datos-->
+                <div class="col-md-6">
+                    <div class="container colorAzulClaroFondo fondoPrincipal">
+                        <div class=" tamañoFormularioColumna login-form">
+                            <form class="form-form" action="#" method="POST">
+                                <div class="avatar">
+                                    <img class="img-fluid img-form" src="../static/assets/img/avatar.png" alt="Avatar">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="direccion" placeholder="Dirección" required="required" readonly>
-                            </div>
-                            <div class="form-group">
+                                <!--<h2 class="text-center h2-form">Member Login</h2>-->
+                                <div class="form-group" style="margin-top: 5rem">
+                                    <input type="text" class="form-control" name="nombre" placeholder="Nombres" value='{{row["nombre"]}}' required="required" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="apellido" placeholder="Apellidos" value='{{row["apellido"]}}'required="required" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <div class="container marginNuloLados paddingNuloLados">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <select class="form-control" name="tipo" value='{{row["tipo"]}}' required="required" disabled>
+                                                <option hidden selected >Tipo</option>
+                                                <option value="CC">CC</option>
+                                                <option value="CE">CE</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-8">
+                                                <input type="number" class="form-control" name="numeroId" value='{{row["numeroId"]}}' placeholder="Número de identificación" required="required" readonly>
+                                            </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="direccion" placeholder="Dirección" value='{{row["direccion"]}}' required="required" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <div class="container marginNuloLados paddingNuloLados">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <input type="text" class="form-control" name="telefono" placeholder="Celular/Telefono" value='{{row["telefono"]}}'required="required" readonly>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" class="form-control" name="fechaNacimiento" value='{{row["fechaNacimiento"]}}' placeholder="Fecha de Nacimiento" onfocus="(this.type='date')" required="required" disabled>
+                                            </div>
+                                        </div>
+                                </div>
+                                </div>
+                                <div class="form-group">
                                 <div class="container marginNuloLados paddingNuloLados">
                                     <div class="row">
                                         <div class="col-6">
-                                            <input type="text" class="form-control" name="telefono" placeholder="Celular/Telefono" required="required" readonly>
+                                        <input type="text" class="form-control" name="tipoContrato" value='{{row["tipoContrato"]}}' placeholder="Tipo de Contrato" required="required" readonly>
                                         </div>
                                         <div class="col-6">
-                                            <input type="text" class="form-control" name="fechaNacimiento" placeholder="Fecha de Nacimiento" onfocus="(this.type='date')" required="required" disabled>
+                                        <input type="text" class="form-control" name="fechaIngreso" value='{{row["fechaIngreso"]}}'placeholder="Fecha de Ingreso" onfocus="(this.type='date')" required="required" disabled>
                                         </div>
                                     </div>
-                               </div>
-                            </div>
-                            <div class="form-group">
-                               <div class="container marginNuloLados paddingNuloLados">
-                                  <div class="row">
-                                    <div class="col-6">
-                                      <input type="text" class="form-control" name="tipoContrato" placeholder="Tipo de Contrato" required="required" readonly>
+                                </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="cargo" placeholder="Cargo" value='{{row["cargo"]}}' required="required" readonly>
+                                </div>
+                                <div class="form-group">
+                                <div class="container marginNuloLados paddingNuloLados">
+                                    <div class="row">
+                                        <div class="col-5">
+                                        <input type="number" class="form-control" name="salario" value='{{row["salario"]}}' placeholder="$ Salario" required="required" readonly>
+                                        </div>
+                                        <div class="col-7">
+                                        <input type="text" class="form-control" name="fechaTerminoContrato" value='{{row["fechaTerminoContrato"]}}' placeholder="Fecha de termino de contrato" onfocus="(this.type='date')" required="required" disabled>
+                                        </div>
                                     </div>
-                                    <div class="col-6">
-                                      <input type="text" class="form-control" name="fechaIngreso" placeholder="Fecha de Ingreso" onfocus="(this.type='date')" required="required" disabled>
-                                    </div>
-                                  </div>
-                               </div>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="cargo" placeholder="Cargo" required="required" readonly>
-                            </div>
-                            <div class="form-group">
-                               <div class="container marginNuloLados paddingNuloLados">
-                                  <div class="row">
-                                    <div class="col-5">
-                                      <input type="number" class="form-control" name="salario" placeholder="$ Salario" required="required" readonly>
-                                    </div>
-                                    <div class="col-7">
-                                      <input type="text" class="form-control" name="fechaTerminoContrato" placeholder="Fecha de termino de contrato" onfocus="(this.type='date')" required="required" disabled>
-                                    </div>
-                                  </div>
-                               </div>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="dependencia" placeholder="Dependencia" required="required" readonly>
-                            </div>
-                        </form>
-                    </div>
+                                </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="dependencia" placeholder="Dependencia" value='{{row["dependencia"]}}' required="required" readonly>
+                                </div>
+                            </form>
+                        </div>
 
+                    </div>
                 </div>
+            {% endfor %} 
             </div>
         </div>
-    </div>
-
 
 {% endblock %}
