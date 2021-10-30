@@ -59,5 +59,8 @@ function habilitarCampos(){
         document.getElementsByName('salario')[0].removeAttribute('readonly');
         document.getElementsByName('fechaTerminoContrato')[0].removeAttribute('disabled');
         document.getElementsByName('dependencia')[0].removeAttribute('readonly');
-        document.getElementsByName('btnEditar')[0].removeAttribute('disabled');
+        habilitarBtnEnviar()
+}
+function habilitarBtnEnviar(){
+    document.getElementsByName('btnEnviar')[0].removeAttribute('disabled');
 }

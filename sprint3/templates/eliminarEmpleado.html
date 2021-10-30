@@ -8,7 +8,7 @@
             <!-- Formulario de busqueda -->
             <div class="col-md-6">
                 <div class="tamañoFormularioColumna login-form ">
-                    <form class="form-form" style="background: #c4c4c4 !important" action="#" method="POST">
+                    <form class="form-form" style="background: #c4c4c4 !important" method="POST">
                         <h2 class="text-center " style="font-family: 'Roboto', sans-serif;">Buscar por:</h2>
                         <div class="form-group">
                             <div class="container marginNuloLados paddingNuloLados">
@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="form-group d-grid gap-2 col-4 mx-auto">
-                            <button type="submit" class="btn btnBuscar btn-primary btn-lg"><i class="fas fa-search fa-2x text-black"></i></button>
+                            <button type="submit"  name="btnConsultar" value="btnConsultar" class="btn btnBuscar btn-primary btn-lg"><i class="fas fa-search fa-2x text-black"></i></button>
                         </div>
                     </form>
                 </div>
@@ -38,9 +38,9 @@
             <div class="col-md-6">
                 <div class="container colorAzulClaroFondo fondoPrincipal">
                     <div class="tamañoFormularioColumna login-form">
-                        <form class="form-form" action="#" method="POST">
+                        <form class="form-form"  method="POST">
                             <div class="avatar">
-                                <img class="img-fluid img-form" src="../static/assets/img/avatar.png" alt="Avatar">
+                                <img class="img-fluid img-form avatar" id="fotoPerfil" style="top: 0 !important;" src="../static/assets/img/avatar.png" alt="Avatar">
                             </div>
                             <div class="form-group" style="margin-top: 5rem">
                                 <input type="text" class="form-control" name="nombre" placeholder="Nombres" required="required" readonly>
@@ -92,7 +92,21 @@
                                </div>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="cargo" placeholder="Cargo" required="required" readonly>
+                                <div class="container marginNuloLados paddingNuloLados">
+                                  <div class="row">
+                                      <div class="col-7">
+                                        <input type="text" class="form-control" name="cargo" placeholder="Cargo" required="required"  readonly>
+                                      </div>
+                                     <div class="col-5">
+                                        <select class="form-control"id="rol" name="rol" required="required" disabled>
+                                            <option hidden selected value="">Rol</option>
+                                            <option value="SuperAdmin">SuperAdmin</option>
+                                            <option value="Admin">Admin</option>
+                                            <option value="Empleado">Empleado</option>
+                                        </select>
+                                    </div>
+                                  </div>
+                               </div>
                             </div>
                             <div class="form-group">
                                <div class="container marginNuloLados paddingNuloLados">
@@ -110,7 +124,7 @@
                                 <input type="text" class="form-control" name="dependencia" placeholder="Dependencia" required="required" readonly>
                             </div>
                             <div class="form-group d-grid gap-2 col-3 mx-auto">
-                                <button type="submit" style="background-color: #d23530; border-color: #d23530" class="btn btn-primary btn-lg" disabled><i class="fas fa-trash-alt fa-2x text-light"></i></button>
+                                <button type="submit"  name="btnEnviar" style="background-color: #d23530; border-color: #d23530" class="btn btn-primary btn-lg" disabled><i class="fas fa-trash-alt fa-2x text-light"></i></button>
                             </div>
                         </form>
                     </div>
@@ -120,6 +134,16 @@
 
         </div>
     </div>
+    <script type="text/javascript">
+        activarInformacionUsuario("{{mostrarDatos}}")
 
+            function activarInformacionUsuario(boolean="False"){
+               if (boolean == "True") {
+                    mostrarInformacionUsuario('{{ jsonDatos|safe}}')
+                   habilitarBtnEnviar()
+                  }
+            }
+
+    </script>
 
 {% endblock %}

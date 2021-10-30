@@ -366,7 +366,7 @@ def editarEmpleado():
                                        jsonDatos=json.dumps({}), mostrarDatos="False",
                                        mensaje="El numero de identificación ingresado no se encuentra registrado. Por favor ingrese otro numero o contacte al administrador para su respectivo registro!",
                                        tipoMensaje="danger", mostrar="True")
-                elif 'btnEditar' in request.form:
+                elif 'btnEnviar' in request.form:
                     try:
                         w_numeroId=int(request.form["numeroId"])
                         w_tipo=request.form["tipo"]
@@ -429,28 +429,80 @@ def eliminarEmpleado():
     if 'rol' in session:
         if 'ID' in session and session['rol'] == "Admin" or session['rol'] == "SuperAdmin":
             title = "Eliminar Empleado"
-            msg=""
+            msg = ""
+
             if request.method == "POST":
-                try:
-                    w_numeroId = request.form["numeroId"]
-                    with sqlite3.connect("db/db_mayordomo.db") as console:
-                        cursor = console.cursor()
-                        cursor.execute("delete from empleados where numeroId=?",(w_numeroId,))
-                        msg = "Registro de empleado borrado satisfactoriamente"
-                except:
-                    print(sqlite3.Error.mensaje)
-                    msg = "Error en el borrado del registro"
-                finally:
-                    #return render_template("delete_record.html",msg = msg)
-                    msg = "proceso finalizado"
+                if 'btnConsultar' in request.form:
+                    try:
+                        print("entre a buscar")
+                        w_numeroId = request.form["numeroId"]
+                        w_tipo=request.form["tipo"]
+                        print(w_numeroId)
+                        with sqlite3.connect("db/db_mayordomo.db") as console:
+                            console.row_factory = sqlite3.Row
+                            cursor = console.cursor()
+                            cursor.execute("SELECT * from empleados where numeroId = ? AND tipo=?", (w_numeroId, w_tipo,))
+                            rows = cursor.fetchall()
+                            print(json.dumps([dict(ix) for ix in rows]))
+                            if rows:
+                                return render_template('eliminarEmpleado.html', title = title, nombrePag="Eliminar Empleado", nombreIcono="fas fa-user-slash",
+                                                       jsonDatos=json.dumps([dict(ix) for ix in rows]), mostrarDatos="True")
+                            else:
 
-                console.close()
+                                return render_template('eliminarEmpleado.html', title = title, nombrePag="Eliminar Empleado", nombreIcono="fas fa-user-slash",
+                                                       jsonDatos=json.dumps([dict(ix) for ix in rows]),
+                                                       mostrarDatos="False",
+                                                       mensaje="El numero de identificación ingresado no se encuentra registrado. Por favor verifique su <b>tipo de documento</b>, ingrese <b>otro numero</b>, o <b>contacte al administrador</b> para su respectivo registro!",
+                                                       tipoMensaje="warning", mostrar="True")
+                    except:
+                        print("Registro no encontrado en la BD")
+                        return render_template('eliminarEmpleado.html', title = title, nombrePag="Eliminar Empleado", nombreIcono="fas fa-user-slash", jsonDatos=json.dumps([dict(ix) for ix in rows]),
+                                               mostrarDatos="False",
+                                               mensaje="El numero de identificación ingresado no se encuentra registrado. Por favor verifique su <b>tipo de documento</b>, ingrese <b>otro numero</b>, o <b>contacte al administrador</b> para su respectivo registro!",
+                                               tipoMensaje="warning", mostrar="True")
 
+                    return render_template('eliminarEmpleado.html', title = title, nombrePag="Eliminar Empleado", nombreIcono="fas fa-user-slash",
+                                       jsonDatos=json.dumps({}), mostrarDatos="False",
+                                       mensaje="El numero de identificación ingresado no se encuentra registrado. Por favor ingrese otro numero o contacte al administrador para su respectivo registro!",
+                                       tipoMensaje="danger", mostrar="True")
+                elif 'btnEnviar' in request.form:
+                    try:
+                        w_numeroId = int(request.form["numeroId"])
+                        #w_tipo=request.form["tipo"]
+                        with sqlite3.connect("db/db_mayordomo.db") as console:
+                            cursor=console.cursor()
+                            cursor.execute("delete from empleados where numeroId=?",(w_numeroId,))
+                            console.commit()
+                            print("pase")
+                            if os.path.exists(rutaFoto):
+                                os.remove("static/assets/img/Perfil/"+ str(w_numeroId)+".png")
+
+                        return render_template('eliminarEmpleado.html', title = title, nombrePag="Eliminar Empleado", nombreIcono="fas fa-user-slash",
+                                               mensaje="El usuario identificado con <b>"+ str(w_numeroId) + "</b> ha sido <b>eliminado</b> satisfactoriamente!",
+                                               tipoMensaje="success", mostrar="True")
+                    except Exception as e:
+                        print(e)
+
+                        console.rollback()
+                        msg = "No se pudo actualizar la información del empleado en la BD"
+                        return render_template('eliminarEmpleado.html', title = title, nombrePag="Eliminar Empleado", nombreIcono="fas fa-user-slash",
+                                               jsonDatos=json.dumps({}), mostrarDatos="False",
+                                               mensaje="Lo sentimos. El usuario <b>"+str(w_numeroId)+"</b> no se pudo eliminar. Por favor intente de nuevo!",
+                                               tipoMensaje="danger", mostrar="True")
+
+                    console.close()
+                    return render_template('eliminarEmpleado.html', title = title, nombrePag="Eliminar Empleado", nombreIcono="fas fa-user-slash",
+                                           jsonDatos=json.dumps({}), mostrarDatos="False",
+                                           mensaje="Lo sentimos. El usuario <b>" + w_numeroId + "</b> no se pudo eliminar. Por favor intente de nuevo!",
+                                           tipoMensaje="danger", mostrar="True")
+                else:
+                    return redirect(url_for("eliminarEmpleado"));
             return render_template('eliminarEmpleado.html', title = title, nombrePag="Eliminar Empleado", nombreIcono="fas fa-user-slash")
         else:
             return redirect(url_for('accesoDenegado'))
     else:
         return redirect(url_for("login"))
+
 
 @app.route("/accesodenegado")
 def accesoDenegado():
