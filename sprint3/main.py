@@ -86,7 +86,7 @@ def login():
         print(username)
         password = request.form['password']
 
-        with sqlite3.connect('/db/db_mayordomo.db') as console:
+        with sqlite3.connect('/sprint3/db/db_mayordomo.db') as console:
             print("Conectado")
             cursor = console.cursor()
             data = cursor.execute("SELECT * from empleados where numeroId = ?", (username,)).fetchone()
