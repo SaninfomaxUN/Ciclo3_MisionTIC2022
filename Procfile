@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath main:app
+web: gunicorn --pythonpath sprint3 sprint3.main
