@@ -1,9 +1,9 @@
 import json
-from sqlite3.dbapi2 import Cursor
-from flask import Flask, request
-from flask import render_template,url_for,redirect, session, flash
 import sqlite3
 import os
+from flask import Flask, request
+from flask import render_template,url_for,redirect, session, flash
+
 from werkzeug.security import generate_password_hash, check_password_hash
 import random
 
