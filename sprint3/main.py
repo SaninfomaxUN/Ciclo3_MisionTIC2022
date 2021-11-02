@@ -14,55 +14,55 @@ app.config['UPLOAD_FOLDER'] = './static/assets/img/Perfil'
 
 @app.route("/",methods=['GET','POST'])
 def redireccionar(palabra=None):
-    try:
-        sql = """
-        CREATE TABLE IF NOT EXISTS empleados(
-        numeroId BIGINT PRIMARY KEY NOT NULL,
-        tipo TEXT(2) NOT NULL,
-        nombre TEXT(40) NOT NULL,
-        apellido TEXT(40) NOT NULL,
-        rol TEXT(15) NOT NULL,
-        direccion TEXT(40) NOT NULL,
-        telefono TEXT(10) NOT NULL,
-        fechaNacimiento DATE NOT NULL,
-        tipoContrato TEXT(10) NOT NULL,
-        fechaIngreso DATE NOT NULL,
-        cargo TEXT(15) NOT NULL,
-        salario REAL(11,2) NOT NULL,
-        fechaTerminoContrato DATE,
-        dependencia TEXT(15) NOT NULL,
-        clave TEXT(40) NOT NULL)
-        """
-        if(consulta.execute(sql)):
-            print("Tabla creada a satisfacción")
-        else:
-            print("Falla en la creación")
-        conexion.commit()
-    except Error as e:
-        print(e)
-    finally:
-        if conexion:
-            consulta.close()
-    try:
-        conexion_2 = sqlite3.connect("db/db_mayordomo.db")
-        consulta_2 = conexion.cursor()
-        sql_2 = """
-            CREATE TABLE IF NOT EXISTS retroalimentaciones (
-            numeroId          BIGINT     REFERENCES empleados (numeroId)
-                       NOT NULL,
-            retroalimentacion TEXT (500) NOT NULL
-            );
-        """
-        if(consulta_2.execute(sql_2)):
-            print("Tabla creada a satisfacción")
-        else:
-            print("Falla en la creación")
-        conexion_2.commit()
-    except Error as e:
-        print(e)
-    finally:
-        if conexion_2:
-            consulta_2.close()
+    # try:
+    #     sql = """
+    #             CREATE TABLE IF NOT EXISTS empleados(
+    #                 numeroId BIGINT PRIMARY KEY NOT NULL,
+    #                 tipo TEXT(2) NOT NULL,
+    #                 nombre TEXT(40) NOT NULL,
+    #                 apellido TEXT(40) NOT NULL,
+    #                 rol TEXT(15) NOT NULL,
+    #                 direccion TEXT(40) NOT NULL,
+    #                 telefono TEXT(10) NOT NULL,
+    #                 fechaNacimiento DATE NOT NULL,
+    #                 tipoContrato TEXT(10) NOT NULL,
+    #                 fechaIngreso DATE NOT NULL,
+    #                 cargo TEXT(15) NOT NULL,
+    #                 salario REAL(11,2) NOT NULL,
+    #                 fechaTerminoContrato DATE,
+    #                 dependencia TEXT(15) NOT NULL,
+    #                 clave TEXT(40) NOT NULL)
+    #             """
+    #     if(consulta.execute(sql)):
+    #         print("Tabla creada a satisfacción")
+    #     else:
+    #         print("Falla en la creación")
+    #     conexion.commit()
+    # except Error as e:
+    #     print(e)
+    # finally:
+    #     if conexion:
+    #         consulta.close()
+    # try:
+    #     conexion_2 = sqlite3.connect("db/db_mayordomo.db")
+    #     consulta_2 = conexion.cursor()
+    #     sql_2 = """
+    #             CREATE TABLE IF NOT EXISTS retroalimentaciones (
+    #                 numeroId          BIGINT     REFERENCES empleados (numeroId)
+    #                                              NOT NULL,
+    #                 retroalimentacion TEXT (500) NOT NULL
+    #             );
+    #             """
+    #     if(consulta_2.execute(sql_2)):
+    #         print("Tabla creada a satisfacción")
+    #     else:
+    #         print("Falla en la creación")
+    #     conexion_2.commit()
+    # except Error as e:
+    #     print(e)
+    # finally:
+    #     if conexion_2:
+    #         consulta_2.close()
     return redirect(url_for("login"))
 
 @app.route("/<palabra>",methods=['GET','POST'])
